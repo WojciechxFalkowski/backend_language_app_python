@@ -1,0 +1,1 @@
+{"id":"f0b2ad22-05f5-41bd-a01d-184868e06d06","space":47049,"runtime":"python3.9","name":"backend","path":"nh5kss","project":"a0iws797","account":"144798365827","region":"eu-central-1","deps":["fastapi","sqlalchemy","passlib","pydantic","python-jose","email_validator","python-multipart","bcrypt"],"envs":null,"public":true,"log_level":"debug","cron":""}
