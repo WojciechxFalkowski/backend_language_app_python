@@ -8,11 +8,6 @@ from fastapi import Depends, HTTPException
 
 def create_set(set: schemas.CreateSet, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        print('create_set')
-        print(current_user)
-        print('set')
-        print(set)
-
         db_set = models.Set(name=set.name,user_id=current_user.id)
         db.add(db_set)
         db.commit()

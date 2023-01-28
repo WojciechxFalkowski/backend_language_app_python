@@ -1,8 +1,10 @@
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
-from . import schemas, service, models
-from ..sql_app.database import get_db
 from fastapi import Depends, HTTPException
+
+from ..sql_app.database import get_db
+
+from . import schemas, service, models
 
 router = APIRouter(tags=["Set"])
 

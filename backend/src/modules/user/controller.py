@@ -14,18 +14,13 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     try:
         user = service.authenticate_user(db, form_data.username, form_data.password)
         if not user:
-            raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+            raise Exception("Incorrect username or password")
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = service.create_access_token(
             data={"sub": user.email}, expires_delta=access_token_expires
         )
         return {"access_token": access_token, "token_type": "bearer"}
     except Exception as e:
-        print(str(e))
         raise HTTPException(status_code=404, detail=str(e))
 
 @router.get("/users/me", response_model=schemas.User)
@@ -47,11 +42,13 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     try:
         db_user = service.get_user_by_email(db, email=user.email)
         if db_user:
-            raise HTTPException(status_code=400, detail="Email already registered")
+            raise Exception("Email already registered")
     # raise HTTPException(status_code=400, detail="error")
         # validate_email(user.email)
         return service.create_user(db=db, user=user)
     except Exception as e:
+        print('except')
+        print(e)
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/users/{user_id}", response_model=schemas.User)

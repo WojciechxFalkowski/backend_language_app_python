@@ -23,3 +23,4 @@ class User(Base):
     created_date = Column(DateTime, default=datetime.datetime.now())
     updated_at = Column(DateTime, default=datetime.datetime.now(), onupdate=datetime.datetime.now())
     sets = relationship("Set", back_populates="creator")
+    settings = relationship("Setting", back_populates="creator")

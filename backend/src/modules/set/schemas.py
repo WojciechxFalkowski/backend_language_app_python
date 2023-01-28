@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List
+
 from ..term.schemas import Term
 
 class GetSet(BaseModel):

@@ -1,8 +1,9 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship
+
 from ..sql_app.database import Base
 
-from sqlalchemy.orm import relationship
 
 class Set(Base):
     __tablename__ = "sets"

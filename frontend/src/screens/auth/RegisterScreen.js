@@ -12,7 +12,7 @@ import { Button } from '../../components/Button'
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// import LoginSVG from '../assets/images/misc/login.svg';
+// import RegisterSVG from '../assets/images/misc/login.svg';
 // import GoogleSVG from '../assets/images/misc/google.svg';
 // import FacebookSVG from '../assets/images/misc/facebook.svg';
 // import TwitterSVG from '../assets/images/misc/twitter.svg';
@@ -21,16 +21,26 @@ import { Button } from '../../components/Button'
 import InputField from '../../components/InputField';
 import { AuthContext } from '../../context/AuthContext'
 
-const LoginScreen = ({ navigation }) => {
-  const { login, isLoading } = React.useContext(AuthContext)
-  const [email, setEmail] = React.useState('maciek@gmail.com')
+const RegisterScreen = ({ navigation }) => {
+  const { register, isLoading } = React.useContext(AuthContext)
+  const [email, setEmail] = React.useState('wojtek@gmail.com')
   const [password, setPassword] = React.useState('Admin123')
+  const [repeatPassword, setRepeatPassword] = React.useState('Admin123')
+  const [errorMessage, setErrorMessage] = React.useState('')
+
+  const registerUser = (email, password) => {
+    setErrorMessage('')
+    register(email, password)
+      .catch(e => {
+        setErrorMessage(e.message)
+      })
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ paddingHorizontal: 25 }}>
         <View style={{ alignItems: 'center' }}>
-          {/*<LoginSVG*/}
+          {/*<RegisterSVG*/}
           {/*  height={300}*/}
           {/*  width={300}*/}
           {/*  style={{transform: [{rotate: '-5deg'}]}}*/}
@@ -44,27 +54,36 @@ const LoginScreen = ({ navigation }) => {
             color: '#333',
             marginBottom: 30
           }}>
-          Login
+          Rejestracja
         </Text>
 
         <InputField
-          label={'Email ID'}
+          label={'E-mail'}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
         />
 
         <InputField
-          label={'Password'}
+          label={'Hasło'}
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true}
         />
 
-        {/*<CustomButton label={"Login"} onPress={() => {}} />*/}
-        <Button style={styles.buttonContainer} onPress={() => login(email, password)} isDisabled={isLoading}
-                isLoading={isLoading}>
-          <Text style={styles.buttonText}>Login</Text>
+        <InputField
+          label={'Powtórz hasło'}
+          value={repeatPassword}
+          onChangeText={setRepeatPassword}
+          secureTextEntry={true}
+        />
+
+        <Text style={styles.errorMessageText}>{errorMessage}</Text>
+
+        <Button
+          style={styles.buttonContainer}
+          onPress={() => registerUser(email, password)} isDisabled={isLoading} isLoading={isLoading}>
+          <Text style={styles.buttonText}>Zarejestruj się</Text>
         </Button>
 
         <View
@@ -73,9 +92,8 @@ const LoginScreen = ({ navigation }) => {
             justifyContent: 'center',
             marginBottom: 30
           }}>
-          <Text>New to the app?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={{ color: '#AD40AF', fontWeight: '700' }}> Register</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={{ fontWeight: '900' }}>Zaloguj się</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -83,18 +101,21 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 const styles = StyleSheet.create({
   buttonContainer: {
-    backgroundColor: '#AD40AF',
-    borderWidth: 0,
+    backgroundColor: '#fff',
     marginBottom: 30,
     height: 40
+  },
+  errorMessageText: {
+    textAlign: 'center',
+    marginBottom: 16,
+    color: 'red'
   },
   buttonText: {
     textAlign: 'center',
     fontWeight: '700',
-    fontSize: 16,
-    color: '#fff'
+    fontSize: 16
   }
 })
